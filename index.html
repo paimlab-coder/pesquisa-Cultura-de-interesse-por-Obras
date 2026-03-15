@@ -1,253 +1,748 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesquisa de Interesse | Obras de Diogo Paim Gonçalves</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #121a2b;
+      --panel-2: #172338;
+      --line: #263552;
+      --text: #f5f7fb;
+      --muted: #b4bfd3;
+      --accent: #f59e0b;
+      --accent-2: #fbbf24;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+    }
 
-<title>Pesquisa de Interesse | Obras de Diogo Paim Gonçalves</title>
+    * { box-sizing: border-box; }
 
-<style>
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(245, 158, 11, 0.16), transparent 24%),
+        linear-gradient(180deg, #08111f 0%, #0b1220 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
 
-body{
-font-family: Arial;
-background:#0b1220;
-color:white;
-padding:40px;
-max-width:900px;
-margin:auto;
-}
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
 
-h1{
-font-size:32px;
-}
+    .hero {
+      padding: 56px 0 28px;
+    }
 
-.question{
-margin-top:30px;
-}
+    .hero-card,
+    .form-card,
+    .book-card,
+    .thankyou,
+    .credits-box {
+      background: linear-gradient(180deg, rgba(23, 35, 56, 0.96), rgba(18, 26, 43, 0.98));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
 
-.option{
-margin:10px 0;
-}
+    .hero-card {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 24px;
+      padding: 32px;
+      align-items: center;
+    }
 
-button{
-margin-top:30px;
-padding:15px 30px;
-background:#f59e0b;
-border:none;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-2);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.22);
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
 
-.card{
-background:#121a2b;
-padding:25px;
-border-radius:10px;
-margin-bottom:30px;
-}
+    h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.04;
+      margin: 16px 0 16px;
+    }
 
-</style>
+    .hero p,
+    .muted {
+      color: var(--muted);
+    }
 
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .point {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 14px;
+    }
+
+    .side-panel {
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.12), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(245, 158, 11, 0.18);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .side-panel h2 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .cta-note {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #fde8b2;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .main-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      padding: 28px 0 56px;
+      align-items: start;
+    }
+
+    .form-card {
+      padding: 28px;
+    }
+
+    .form-head h2 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    .form-head p {
+      margin: 0 0 22px;
+      color: var(--muted);
+    }
+
+    .question {
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .question h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .option-card {
+      position: relative;
+    }
+
+    .option-card input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .option-card label {
+      display: block;
+      min-height: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: #0f1727;
+      padding: 14px;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .option-card input:checked + label {
+      border-color: rgba(245, 158, 11, 0.72);
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--text);
+      transform: translateY(-1px);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: #0e1727;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: rgba(245, 158, 11, 0.72);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+    }
+
+    .submit-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 24px;
+      padding-top: 10px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 22px;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .btn-primary {
+      color: #0a0a0a;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent));
+      box-shadow: 0 12px 25px rgba(245, 158, 11, 0.22);
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .sidebar {
+      display: grid;
+      gap: 20px;
+    }
+
+    .credits-box,
+    .book-card,
+    .thankyou {
+      padding: 22px;
+    }
+
+    .credits-box h3,
+    .thankyou h3,
+    .book-card h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .credit-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.22);
+      color: #bbf7d0;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    .book-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mini-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .channels {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .thankyou {
+      display: none;
+      border-color: rgba(34, 197, 94, 0.24);
+      background: linear-gradient(180deg, rgba(34, 197, 94, 0.08), rgba(18, 26, 43, 0.98));
+    }
+
+    .thankyou.show {
+      display: block;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      margin: 16px 0;
+    }
+
+    .warning {
+      color: #fde68a;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-card,
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .options,
+      .field-grid,
+      .hero-points {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card,
+      .form-card,
+      .book-card,
+      .thankyou,
+      .credits-box {
+        padding: 20px;
+      }
+
+      .submit-row {
+        align-items: stretch;
+      }
+
+      .submit-row .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-
-
 <body>
-
-<div class="card">
-
-<h1>Descubra qual obra de Diogo Paim faz mais sentido para você</h1>
-
-<p>
-
-Esta pesquisa rápida foi criada para entender o perfil profissional dos leitores e indicar a obra mais útil para seu momento de carreira.
-
-Leva menos de 2 minutos.
-
-</p>
-
-</div>
-
-<form action="https://formsubmit.co/diogopaim987@gmail.com" method="POST">
-
-<input type="hidden" name="_cc" value="paimlab@gmail.com">
-
-<input type="hidden" name="_captcha" value="false">
-
-<input type="hidden" name="_subject" value="Nova pesquisa de interesse sobre os livros">
-
-
-
-
-<div class="card question">
-
-<h3>1. Em qual área você atua hoje?</h3>
-
-<div class="option">
-<input type="radio" name="area" required> Vendas / Comercial
-</div>
-
-<div class="option">
-<input type="radio" name="area"> Inteligência de Mercado / Pricing
-</div>
-
-<div class="option">
-<input type="radio" name="area"> Indústria / Estratégia / Operações
-</div>
-
-</div>
-
-
-
-
-<div class="card question">
-
-<h3>2. O que você espera melhorar na sua carreira?</h3>
-
-<div class="option">
-<input type="radio" name="objetivo"> Vender mais e defender margem
-</div>
-
-<div class="option">
-<input type="radio" name="objetivo"> Argumentar melhor com dados
-</div>
-
-<div class="option">
-<input type="radio" name="objetivo"> Evoluir para cargos estratégicos
-</div>
-
-</div>
-
-
-
-
-<div class="card question">
-
-<h3>3. Qual aumento salarial você acredita ser possível ao melhorar seu conhecimento?</h3>
-
-<div class="option">
-<input type="radio" name="salario"> até 15%
-</div>
-
-<div class="option">
-<input type="radio" name="salario"> entre 15% e 30%
-</div>
-
-<div class="option">
-<input type="radio" name="salario"> mais de 30%
-</div>
-
-</div>
-
-
-
-
-<div class="card question">
-
-<h3>4. Você já leu algum livro realmente aplicável à vida profissional?</h3>
-
-<div class="option">
-<input type="radio" name="leitura"> Não, e sinto falta disso
-</div>
-
-<div class="option">
-<input type="radio" name="leitura"> Já li alguns, mas eram muito teóricos
-</div>
-
-<div class="option">
-<input type="radio" name="leitura"> Sim, mas quero algo ainda mais prático
-</div>
-
-</div>
-
-
-
-
-<div class="card question">
-
-<h3>5. Como você prefere consumir conhecimento?</h3>
-
-<div class="option">
-<input type="radio" name="formato"> Livro físico (para anotar e rabiscar)
-</div>
-
-<div class="option">
-<input type="radio" name="formato"> E-book com leitura confortável
-</div>
-
-<div class="option">
-<input type="radio" name="formato"> Kindle para viagens e rotina
-</div>
-
-</div>
-
-
-
-
-<div class="card question">
-
-<h3>6. Em qual momento você costuma ler?</h3>
-
-<div class="option">
-<input type="radio" name="momento"> No intervalo do trabalho
-</div>
-
-<div class="option">
-<input type="radio" name="momento"> Em viagens ou deslocamentos
-</div>
-
-<div class="option">
-<input type="radio" name="momento"> Em casa com mais calma
-</div>
-
-</div>
-
-
-
-
-<div class="card question">
-
-<h3>7. O que mais te atrai em uma obra profissional?</h3>
-
-<div class="option">
-<input type="radio" name="valor"> Técnicas reais aplicáveis no trabalho
-</div>
-
-<div class="option">
-<input type="radio" name="valor"> Aumento de repertório e argumentação
-</div>
-
-<div class="option">
-<input type="radio" name="valor"> Evolução estratégica de carreira
-</div>
-
-</div>
-
-
-
-
-<div class="card">
-
-<h3>Se quiser, deixe seu contato para receber recomendações</h3>
-
-<input type="text" name="nome" placeholder="Nome" style="width:100%;padding:10px;margin:10px 0">
-
-<input type="email" name="email" placeholder="Email" style="width:100%;padding:10px;margin:10px 0">
-
-</div>
-
-
-
-
-<button type="submit">
-
-Enviar pesquisa
-
-</button>
-
-</form>
-
+  <header class="hero">
+    <div class="container">
+      <div class="top-brand">
+        <div class="brand-copy">
+          <div class="brand-kicker">Paim Business Intelligence</div>
+          <h2>Leitura aplicável, visão estratégica e repertório para decisões reais.</h2>
+          <p>Uma página pensada para gerar interesse, autoridade, cliques e conexão com pessoas que valorizam conteúdo profissional sério.</p>
+        </div>
+        <div class="brand-logo-wrap">
+          <img class="brand-logo" alt="Paim Business Intelligence" src="data:image/webp;base64,UklGRjoqAABXRUJQVlA4IC4qAACwBAGdASq8ArwCPm02mEkkMiqkIfRI0kANiWdu4XYBER/cVHqPOusn90/Bf9t6cSzvOP6I8oHrL/PvsBfph/qP8B/d+yh5L4Za7n2Ps1HRln/79mjt8WTW28IY9xNRB8FCo8cml7WreZYIlzpJ2nM55nzM/+wJcEfeHC3Bk+0xuvvP9rK0jPAr7/rmA7VQsqjVa6VBa+MhS5Ntqgp9KH+As+Gik1KxIlm6g3v7V7xnRIVn8NO7JLQ/DA6jXR0Jv29A4bO5KPk6Vb9VWXjRkjrQ1T5j9EUmj0lNrPB6fliGQyR9oaBJjVA9eY11h3tmbwgY6jd5Hw4t9c1TA7tazG69v1m0W6iVwpr2JUc2FYl3jwW6cnzy6nj6wqY+M+Q0opQKjYZWk5jZOBmkA+8HVy2XbLEnQ5WjbxHhS6Bx6H4JFSng4vN4vY3g1d5psSHQyM4Mb2TTZqSzppTQ0YwAA" />
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div>
+          <span class="eyebrow">Pesquisa estratégica • geração de interesse</span>
+          <h1>Descubra qual obra de <br>Diogo Paim Gonçalves faz mais sentido para você.</h1>
+          <p>
+            Esta pesquisa foi pensada para gerar conexão, entender o momento profissional da audiência,
+            aumentar engajamento, atrair seguidores qualificados e direcionar cada pessoa para a obra
+            mais alinhada ao seu perfil, seja em e-book, Kindle ou livro físico.
+          </p>
+          <div class="hero-points">
+            <div class="point"><strong>Mais autoridade:</strong> perguntas com foco em dor real, carreira e poder de argumentação.</div>
+            <div class="point"><strong>Mais conversão:</strong> recomendações ao final com base nas respostas do visitante.</div>
+            <div class="point"><strong>Mais engajamento:</strong> estrutura rápida, visual e com apenas opções de clique.</div>
+            <div class="point"><strong>Mais leads:</strong> captura nome, e-mail e WhatsApp para relacionamento posterior.</div>
+          </div>
+        </div>
+        <aside class="side-panel">
+          <h2>Formatos para diferentes perfis</h2>
+          <p class="muted">
+            Para os mais tradicionais, o livro físico continua sendo insubstituível: rabiscar, destacar,
+            virar páginas e fazer anotações estratégicas. Para os mais despojados, o Kindle e os e-books
+            oferecem leitura leve em viagens, intervalos de almoço e deslocamentos do dia a dia.
+          </p>
+          <p class="cta-note">
+            Inspirado no estilo do próprio Diogo Paim Gonçalves: leitura útil, aplicável, séria e sem fantasia.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <main class="container grid main-grid">
+    <section>
+      <div class="form-card">
+        <div class="photo-feature">
+          <img class="profile-photo" alt="Diogo Paim Gonçalves" src="data:image/webp;base64,UklGRvZKAABXRUJQVlA4IOpKAADQBAKdASoIAhUCPm00lkgkIyInpLM7KPANiWdsPyFTOxCsefrvqTtkdB4XlFvnPqwjHqcexXs2SziEbZW3Eix18H051hB5j+Q5F0xvqCFKd0zsGmON4RO0ziP+kk6gW1TQw60L3A8NyvM7C1yO4h2g9XWiqvTNN3BhlEVAQf7jtNpZK1E9eD5SRK8m0E3g1lW/2Tc6k9i8NbVf6n9TwW8faI5I7gW50vGd7lz0f5kK1nj3rA/pS/6q6Pzj4Ik+w7ttUNYEkVnIcmu2bYiv6t7tVf7MnuVfs49smnW6LMcjc2Xg7Fp2S7l3hL1PMuG7y9MfVhVJQrl7y3rx4eaM6Cq0sTvI9shFxbOS8n94V4Yv4ljmjo0l9HG2ca07nN8FAJ3Xz6fR5jHF1YG0h3j3egmJ9hA2n0M0EqY6FY5G8A5lS2Y8j9A7R2Qif0lmJvPcUoH6wbiQfpP4A9jL9xlgxqUe8kQHlsMzJEFM8W4N2k3oj1QdzE7qTt0kmxj9eJ9A0g3dFzG+9VIfz9G8GfLdlu5LJSaqf8h0O7hY9PRl6vT+KQ+0aPaGvNhQY9e4KqB0UPbTHbZ8wp1kl6CWRW7iFK0+s5a8HnQfVUN0h8l15N7M7BTSG6xIk9G0vM3u2t2v6AKaDKsA0sLrD3LxT1J8lKXwMYQ7Br7XU0fUas2N5t8q9uZsI8sVQ4wVxgK7I6Y0k4e7uXg+LkrX0xOe8W5JYx4YFJp6j7d8t0QdfW4S6w3hYqN0T7y0+0OMbc1wKwe9Igq6m+U9x+5x8o6oSTz8pU93xKPVXGm0m/3YQ/4H+4IP3MdT9j0v2Xhvg8mQ0O3Q0hD0Hq0+Lq+ABOwVg9G3f1cU1a2o0hC1Omx+HhYB4Q7wNQGQJjJgW9c2k9yQTuW7i6SO9BCVvI3oNhQ9mC4QcnD1vQf57n53xw7pQ1z/fmg/f0cm1D8yZPSW06R8P+/4L9n8B8aX7AO7PRL9BG7MNPz/4GX8AKq4X5h9FAAA=" />
+          <strong>Diogo Paim Gonçalves</strong>
+          <span class="muted">Especialista em inteligência de mercado, pricing estratégico, posicionamento e leitura de oportunidades profissionais.</span>
+        </div>
+
+        <div class="form-head">
+          <h2>Pesquisa online de interesse</h2>
+          <p>
+            Responda em menos de 2 minutos. Ao final, você verá a indicação de obra mais aderente ao seu perfil.
+            Este HTML já está preparado para envio por e-mail via serviço de formulários.
+          </p>
+        </div>
+
+        <form id="interestForm" action="https://formsubmit.co/diogopaim987@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Nova resposta da pesquisa de interesse - Site Diogo Paim" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_next" value="" />
+          <input type="hidden" name="_cc" value="paimlab@gmail.com" />
+          <input type="hidden" name="obra_recomendada" id="obra_recomendada" value="" />
+          <input type="hidden" name="formato_recomendado" id="formato_recomendado" value="" />
+          <input type="hidden" name="pontuacao_total" id="pontuacao_total" value="0" />
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+            </div>
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="voce@exemplo.com" required />
+            </div>
+            <div class="field">
+              <label for="whatsapp">WhatsApp</label>
+              <input type="text" id="whatsapp" name="whatsapp" placeholder="(11) 99999-9999" />
+            </div>
+            <div class="field">
+              <label for="cidade">Cidade / Estado</label>
+              <input type="text" id="cidade" name="cidade" placeholder="São Paulo / SP" />
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="question" data-score-group="area">
+            <h3>1. Em qual área você atua hoje?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="area1" name="area_atuacao" value="Vendas / Comercial" data-book="margem" data-format="fisico" required />
+                <label for="area1">Vendas / Comercial</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="area2" name="area_atuacao" value="Inteligência de Mercado / Pricing" data-book="pricing" data-format="ebook" required />
+                <label for="area2">Inteligência de Mercado / Pricing</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="area3" name="area_atuacao" value="Indústria / Estratégia / Operações" data-book="gtm" data-format="kindle" required />
+                <label for="area3">Indústria / Estratégia / Operações</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>2. O que você espera melhorar na sua vida profissional nos próximos meses?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="expect1" name="objetivo_profissional" value="Vender melhor e defender margem" data-book="margem" required />
+                <label for="expect1">Vender melhor e defender margem</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="expect2" name="objetivo_profissional" value="Argumentar com mais dados e inteligência" data-book="pricing" required />
+                <label for="expect2">Argumentar com mais dados e inteligência</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="expect3" name="objetivo_profissional" value="Estruturar mercado, posicionamento e expansão" data-book="gtm" required />
+                <label for="expect3">Estruturar mercado, posicionamento e expansão</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>3. Qual resultado faria você sentir que está evoluindo de verdade em relação ao seu salário?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="salary1" name="evolucao_salarial" value="Aumentar em até 15% com melhor desempenho" data-book="margem" required />
+                <label for="salary1">Aumentar em até 15% com melhor desempenho</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="salary2" name="evolucao_salarial" value="Aumentar entre 15% e 30% com mais valor percebido" data-book="pricing" required />
+                <label for="salary2">Aumentar entre 15% e 30% com mais valor percebido</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="salary3" name="evolucao_salarial" value="Assumir posição mais estratégica e crescer acima de 30%" data-book="gtm" required />
+                <label for="salary3">Assumir posição mais estratégica e crescer acima de 30%</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>4. Você já leu alguma obra realmente aplicável, sem fantasia, que fortaleça sua argumentação no trabalho e no dia a dia?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="read1" name="leitura_realista" value="Ainda não, e sinto falta disso" data-book="pricing" required />
+                <label for="read1">Ainda não, e sinto falta disso</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="read2" name="leitura_realista" value="Já li algo, mas achei teórico demais" data-book="margem" required />
+                <label for="read2">Já li algo, mas achei teórico demais</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="read3" name="leitura_realista" value="Sim, mas quero algo ainda mais útil e aplicável" data-book="gtm" required />
+                <label for="read3">Sim, mas quero algo ainda mais útil e aplicável</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>5. Como você prefere consumir um conteúdo que possa elevar seu repertório profissional?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="format1" name="formato_preferido" value="Livro físico, para rabiscar e anotar" data-format="fisico" required />
+                <label for="format1">Livro físico, para rabiscar e anotar</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="format2" name="formato_preferido" value="E-book com letras maiores e leitura confortável" data-format="ebook" required />
+                <label for="format2">E-book com letras maiores e leitura confortável</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="format3" name="formato_preferido" value="Kindle para viagens, almoço e deslocamentos" data-format="kindle" required />
+                <label for="format3">Kindle para viagens, almoço e deslocamentos</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>6. Em qual contexto você mais gostaria de aplicar esse conhecimento?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="apply1" name="aplicacao_contexto" value="Reuniões comerciais, negociação e defesa de preço" data-book="margem" required />
+                <label for="apply1">Reuniões comerciais, negociação e defesa de preço</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="apply2" name="aplicacao_contexto" value="Análises, discussões estratégicas e posicionamento" data-book="pricing" required />
+                <label for="apply2">Análises, discussões estratégicas e posicionamento</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="apply3" name="aplicacao_contexto" value="Projetos de crescimento, mercado e expansão industrial" data-book="gtm" required />
+                <label for="apply3">Projetos de crescimento, mercado e expansão industrial</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="question">
+            <h3>7. O que mais chama sua atenção em uma obra profissional séria?</h3>
+            <div class="options">
+              <div class="option-card">
+                <input type="radio" id="attr1" name="atrativo_principal" value="Praticidade imediata para vender com mais margem" data-book="margem" required />
+                <label for="attr1">Praticidade imediata para vender com mais margem</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="attr2" name="atrativo_principal" value="Clareza analítica e leitura estratégica de mercado" data-book="pricing" required />
+                <label for="attr2">Clareza analítica e leitura estratégica de mercado</label>
+              </div>
+              <div class="option-card">
+                <input type="radio" id="attr3" name="atrativo_principal" value="Visão estruturada de posicionamento e Go-to-Market" data-book="gtm" required />
+                <label for="attr3">Visão estruturada de posicionamento e Go-to-Market</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 16px;">
+            <label for="mensagem">Se quiser, escreva o que você busca hoje em termos de carreira, repertório e crescimento.</label>
+            <textarea id="mensagem" name="mensagem_livre" placeholder="Ex.: Quero ter mais segurança para defender preços, argumentar melhor com clientes e ampliar minha visão estratégica."></textarea>
+          </div>
+
+          <div class="submit-row">
+            <div>
+              <div class="small">As respostas serão enviadas para <strong>diogopaim987@gmail.com</strong> com cópia para <strong>paimlab@gmail.com</strong>.</div>
+              <div class="warning">Créditos gastos por este HTML: 0. O envio depende do serviço de formulário escolhido; isso pode gerar custos fora deste arquivo, conforme a plataforma utilizada.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar pesquisa e ver recomendação</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="credits-box">
+        <h3>Controle de créditos</h3>
+        <p class="muted">Você pediu para eu sempre informar quantos créditos estão sendo gastos.</p>
+        <div class="credit-count">Créditos gastos nesta entrega: 0</div>
+        <p class="small" style="margin-top: 12px;">
+          Este HTML em si não consome créditos de envio. Caso você publique usando serviços como FormSubmit,
+          Web3Forms, EmailJS ou integração própria, o consumo dependerá do plano da ferramenta escolhida.
+        </p>
+      </div>
+
+      <div class="book-card">
+        <h3>Obras que podem interessar à persona</h3>
+        <div class="book-list">
+          <div class="mini-card">
+            <strong>Vender com Margem</strong>
+            Ideal para quem quer vender melhor, defender preço, proteger rentabilidade e argumentar com mais segurança.
+          </div>
+          <div class="mini-card">
+            <strong>Inteligência de Mercado e Pricing Estratégico</strong>
+            Para quem precisa analisar mercado, interpretar movimentos competitivos e tomar decisões com base em leitura estratégica.
+          </div>
+          <div class="mini-card">
+            <strong>Go to Market</strong>
+            Recomendado para quem quer estruturar posicionamento, entrada em mercado, expansão e visão comercial mais completa.
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <h3>Formatos e canais</h3>
+        <p class="muted">Você pode adaptar depois com os links reais de compra.</p>
+        <div class="channels">
+          <span class="chip">Livro físico</span>
+          <span class="chip">E-book</span>
+          <span class="chip">Kindle</span>
+          <span class="chip">Amazon</span>
+          <span class="chip">Kindle Unlimited</span>
+          <span class="chip">Hotmart</span>
+          <span class="chip">Mercado Livre</span>
+          <span class="chip">Book2</span>
+        </div>
+      </div>
+
+      <div id="thankyouBox" class="thankyou">
+        <h3>Recomendação inicial gerada</h3>
+        <p id="recommendationText" class="muted" style="margin-bottom: 0;"></p>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const form = document.getElementById('interestForm');
+    const thankyouBox = document.getElementById('thankyouBox');
+    const recommendationText = document.getElementById('recommendationText');
+    const obraRecomendada = document.getElementById('obra_recomendada');
+    const formatoRecomendado = document.getElementById('formato_recomendado');
+    const pontuacaoTotal = document.getElementById('pontuacao_total');
+
+    function computeRecommendation() {
+      const bookScores = {
+        margem: 0,
+        pricing: 0,
+        gtm: 0
+      };
+
+      const formatScores = {
+        fisico: 0,
+        ebook: 0,
+        kindle: 0
+      };
+
+      document.querySelectorAll('input[type="radio"]:checked').forEach((input) => {
+        const book = input.dataset.book;
+        const format = input.dataset.format;
+        if (book && bookScores[book] !== undefined) bookScores[book] += 1;
+        if (format && formatScores[format] !== undefined) formatScores[format] += 1;
+      });
+
+      const bestBook = Object.entries(bookScores).sort((a, b) => b[1] - a[1])[0]?.[0] || 'pricing';
+      const bestFormat = Object.entries(formatScores).sort((a, b) => b[1] - a[1])[0]?.[0] || 'ebook';
+      const total = Object.values(bookScores).reduce((sum, n) => sum + n, 0);
+
+      const bookMap = {
+        margem: 'Vender com Margem',
+        pricing: 'Inteligência de Mercado e Pricing Estratégico',
+        gtm: 'Go to Market'
+      };
+
+      const formatMap = {
+        fisico: 'Livro físico',
+        ebook: 'E-book com leitura confortável',
+        kindle: 'Kindle para leituras práticas no dia a dia'
+      };
+
+      obraRecomendada.value = bookMap[bestBook];
+      formatoRecomendado.value = formatMap[bestFormat];
+      pontuacaoTotal.value = String(total);
+
+      recommendationText.innerHTML = `
+        Pela sua combinação de respostas, a obra com maior aderência ao seu momento é <strong>${bookMap[bestBook]}</strong>.
+        Em formato, a sugestão principal é <strong>${formatMap[bestFormat]}</strong>.
+        Isso indica uma preferência por conteúdo sério, aplicável e capaz de ampliar sua argumentação em conversas profissionais e sociais.
+      `;
+
+      thankyouBox.classList.add('show');
+    }
+
+    form.addEventListener('change', computeRecommendation);
+
+    form.addEventListener('submit', function () {
+      computeRecommendation();
+    });
+  </script>
 </body>
-
 </html>
